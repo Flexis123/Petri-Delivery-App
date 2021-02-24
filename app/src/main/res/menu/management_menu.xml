@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools = "http://schemas.android.com/tools"
+   tools:showIn="navigation_view">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/clientiItem"
+            android:title="@string/clienti" />
+        <item
+            android:id="@+id/ordineItem"
+            android:title="@string/ordine" />
+        <item
+            android:id="@+id/abonamenteItem"
+            android:title="@string/abonamente" />
+        <item
+            android:id="@+id/produseItem"
+            android:title="@string/produse" />
+        <item
+            android:id="@+id/angajatiItem"
+            android:title="@string/angajati" />
+    </group>
+</menu>

@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">Petri Delivery</string>
+    <string name="loginTextView">Login</string>
+    <string name="nume_de_utilizator">Introdu nume de utilizator</string>
+    <string name="parola">Introdu parola</string>
+    <string name="numeDeUtilizatorExtra">numeDeUtilizator</string>
+    <string name="confirm">Confirm</string>
+    <string name="reintrodu_parola_noua">Reintrodu parola noua</string>
+    <string name="introdu_o_parola_noua">Introdu o parola noua</string>
+    <string name="parole_diferite">Cele doua parole care au fost introduse nu sunt la fel!!</string>
+    <string name="parolaExtra">parola</string>
+    <string name="inapoi_la_login"><![CDATA[<- Inapoi la login]]></string>
+    <string name="clienti">Clienti</string>
+    <string name="ordine">Ordine</string>
+    <string name="item">Item</string>
+    <string name="abonamente">Abonamente</string>
+    <string name="produse">Produse</string>
+    <string name="angajati">Angajati</string>
+    <string name="log_out">Log out</string>
+    <string name="inchide">Inchide</string>
+    <string name="deschide">Deschide</string>
+    <string name="parola_e_goala">Parola noua nu poate fi lasata goala</string>
+
+    <string name="welcome_msg">%s %s, \n apasati pe butonu de stanga sus sa incepeti treaba</string>
+    <string name="dimi">Buna dimineata</string>
+    <string name="amiaz">O amiaza placuta</string>
+    <string name="dupamasa">Buna dupamasa</string>
+    <string name="seara">Buna seara</string>
+</resources>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="confirm">Confirm</string>
+    <string name="reintrodu_parola_noua">Reintrodu parola noua</string>
+    <string name="introdu_o_parola_noua">Introdu o parola noua</string>
+    <string name="item">Item</string>
+    <string name="produse">Produse</string>
+    <string name="angajati">Angajati</string>
+    <string name="log_out">Log out</string>
+</resources>

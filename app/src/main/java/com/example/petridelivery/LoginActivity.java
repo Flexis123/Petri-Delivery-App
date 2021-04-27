@@ -5,19 +5,23 @@ import android.os.Bundle;
 import android.widget.EditText;
 
 import com.example.petridelivery.abs.BaseActivity;
-import com.example.petridelivery.wrappers.base.abs.ApiException;
-import com.petri.delivery.web.controllers.abs.IAuthController;
+import com.example.petridelivery.wrappers.AuthWrapper;
+import com.example.petridelivery.wrappers.base.OnResponseCallback;
 import com.petri.delivery.web.objects.ContDto;
+
+import javax.inject.Inject;
+
+import retrofit2.Response;
 
 public class LoginActivity extends BaseActivity {
 
-    IAuthController auth;
+    @Inject
+    AuthWrapper auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        auth = wc.getAuthWrapper();
+        wc.inject(this);
 
         String numeUtilizator = getResources().getString(R.string.numeDeUtilizatorExtra);
 
@@ -36,19 +40,23 @@ public class LoginActivity extends BaseActivity {
             String parola = ((EditText)findViewById(R.id.parolaEditText))
                     .getText().toString();
 
-            runner.executeAsync(() -> {
-                try{
-                    ContDto cont = auth.login(parola, numeDeUtilizator1);
+            auth.login(parola, numeDeUtilizator1).enqueue(new OnResponseCallback<ContDto>(getApplicationContext()) {
+                @Override
+                public void onSuccessful(Response<ContDto> response) {
+                    ContDto cont = response.body();
                     app.setCont(cont);
 
-                    this.runOnUiThread(() -> startActivity(new Intent(this, MainActivity.class)));
-                }catch (ApiException e){
-                    if(e.getStatus() == 308){
-                        Intent changePassword = new Intent(this, ChangePasswordActivity.class);
+                    runOnUiThread(() -> startActivity(new Intent(LoginActivity.this, MainActivity.class)));
+                }
+
+                @Override
+                public void onNotSuccesful(Response<ContDto> response) {
+                    if(response.code() == 308){
+                        Intent changePassword = new Intent(LoginActivity.this, ChangePasswordActivity.class);
                         changePassword.putExtra(numeUtilizator, numeDeUtilizator1);
                         changePassword.putExtra(getResources().getString(R.string.parolaExtra), parola);
 
-                        this.runOnUiThread(() -> startActivity(changePassword));
+                        runOnUiThread(() -> startActivity(changePassword));
                     }
                 }
             });

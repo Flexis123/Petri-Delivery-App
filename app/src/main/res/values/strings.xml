@@ -26,4 +26,15 @@
     <string name="amiaz">O amiaza placuta</string>
     <string name="dupamasa">Buna dupamasa</string>
     <string name="seara">Buna seara</string>
+
+    <string name="actualizeaza">Actualizeaza</string>
+    <string name="sterge">Sterge</string>
+
+    <string name="client_id_column_header">Client id</string>
+    <string name="client_nume_column_header">Nume</string>
+    <string name="client_prenume_column_header">Prenume</string>
+    <string name="button">Button</string>
+    <string name="cauta_dupa_nume">Cauta dupa nume</string>
+    <string name="cauata_dupa_prenume">Cauata dupa prenume</string>
+    <string name="adauga_un_client_nou">Adauga un client nou</string>
 </resources>

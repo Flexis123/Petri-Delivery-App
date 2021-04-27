@@ -1,46 +1,24 @@
 package com.example.petridelivery.wrappers;
 
-import com.example.petridelivery.wrappers.base.abs.HttpMethod;
-import com.example.petridelivery.wrappers.base.abs.IWebClient;
-import com.petri.delivery.web.controllers.abs.IAuthController;
 import com.petri.delivery.web.objects.ContDto;
 
-import java.util.HashMap;
+import retrofit2.Call;
+import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.POST;
 
-import javax.inject.Inject;
+public interface AuthWrapper{
 
-public class AuthWrapper implements IAuthController{
-	
-	private IWebClient cl;
-	private String baseUrl = "/auth/";
-	
-	@Inject
-	public AuthWrapper(IWebClient cl) {
-		this.cl = cl;
-	}
+	String prefix = "/auth/";
 
-	public void change_default_password(String password, String newPassword, String username) {
-		cl.doRequest(baseUrl + "change_default_password", HttpMethod.POST, new HashMap<String, String>(){{
-			put("password", password);
-			put("newPassword", newPassword);
-			put("username", username);
-		}}, null, null, Void.class);
-	}
+	@POST(prefix+"change_default_password")
+	Call<Void> change_default_password(@Header("password") String password,
+								 @Header("newPassword") String newPassword,
+								 @Header("username") String username);
 
-	public ContDto login(String password, String username) {
-		return cl.doRequest(baseUrl + "login", HttpMethod.GET,
-				new HashMap<String, String>(){{
-					put("password", password);
-					put("username", username);
-			}}, null, null, ContDto.class);
-	}
+	@GET(prefix+"login")
+	Call<ContDto> login(@Header("password") String password, @Header("username") String username);
 
-	@Override
-	public ContDto loginWithToken(String token, String username) {
-		return cl.doRequest(baseUrl + "login_with_token", HttpMethod.GET,
-				new HashMap<String, String>(){{
-					put("token", token);
-					put("username", username);
-				}}, null, null, ContDto.class);
-	}
+	@GET(prefix+"login_with_token")
+	Call<ContDto> loginWithToken(@Header("token") String token, @Header("username") String username);
 }

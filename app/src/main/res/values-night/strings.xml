@@ -7,4 +7,9 @@
     <string name="produse">Produse</string>
     <string name="angajati">Angajati</string>
     <string name="log_out">Log out</string>
+    <string name="actualizeaza">Actualizeaza</string>
+    <string name="sterge">Sterge</string>
+    <string name="cauta_dupa_nume">Cauta dupa nume</string>
+    <string name="cauata_dupa_prenume">Cauata dupa prenume</string>
+    <string name="adauga_un_client_nou">Adauga un client nou</string>
 </resources>

@@ -6,8 +6,6 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.petridelivery.app.PetriDeliveryApp;
-import com.example.petridelivery.concurent.DaggerConcurrentComponent;
-import com.example.petridelivery.concurent.TaskRunner;
 import com.example.petridelivery.util.InjectionUtils;
 import com.example.petridelivery.wrappers.WrapperComponent;
 
@@ -18,7 +16,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected WrapperComponent wc;
     protected PetriDeliveryApp app;
-    protected TaskRunner runner = DaggerConcurrentComponent.create().getTaskRunner();
 
     @Override
     protected void onCreate(Bundle savedInstance){

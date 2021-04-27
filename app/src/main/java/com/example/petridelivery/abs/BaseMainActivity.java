@@ -63,6 +63,7 @@ public abstract class BaseMainActivity extends BaseActivity{
         });
 
         subMenu.setGroupCheckable(LOGIN_GROUP, true, true);
+        setupMenu();
         changeFragment(new WelcomeFragment());
     }
 
@@ -71,4 +72,6 @@ public abstract class BaseMainActivity extends BaseActivity{
             .replace(fragmentHolderResId, fragment)
                 .commit();
     }
+
+    public abstract void setupMenu();
 }

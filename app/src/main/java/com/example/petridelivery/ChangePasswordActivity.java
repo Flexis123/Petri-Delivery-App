@@ -7,18 +7,22 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.petridelivery.abs.BaseActivity;
-import com.example.petridelivery.wrappers.base.abs.ApiException;
-import com.petri.delivery.web.controllers.abs.IAuthController;
+import com.example.petridelivery.wrappers.AuthWrapper;
+import com.example.petridelivery.wrappers.base.OnResponseCallback;
+
+import javax.inject.Inject;
+
+import retrofit2.Response;
 
 public class ChangePasswordActivity extends BaseActivity {
 
-    IAuthController auth;
+    @Inject
+    AuthWrapper auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        auth = wc.getAuthWrapper();
+        wc.inject(this);
 
         Intent intent = getIntent();
         Resources res = getResources();
@@ -31,20 +35,21 @@ public class ChangePasswordActivity extends BaseActivity {
                     .getText().toString();
 
             if(newPassword.equals(newPasswordRepeated)){
-                runner.executeAsync(() -> {
-                    try{
-                        String numeDeUtilizator = intent.getStringExtra(res.getString(R.string.numeDeUtilizatorExtra));
-                        auth.change_default_password(
-                                intent.getStringExtra(res.getString(R.string.parolaExtra)),
-                                newPassword,
-                                numeDeUtilizator
-                        );
+                String numeDeUtilizator = intent.getStringExtra(res.getString(R.string.numeDeUtilizatorExtra));
 
-                        Intent login = new Intent(this, LoginActivity.class);
+                auth.change_default_password(
+                        intent.getStringExtra(res.getString(R.string.parolaExtra)),
+                        newPassword,
+                        numeDeUtilizator
+                ).enqueue(new OnResponseCallback<Void>(getApplicationContext()) {
+                    @Override
+                    public void onSuccessful(Response<Void> response) {
+                        Intent login = new Intent(ChangePasswordActivity.this, LoginActivity.class);
                         login.putExtra(res.getString(R.string.numeDeUtilizatorExtra), numeDeUtilizator);
                         startActivity(login);
-                    }catch (ApiException e){}
+                    }
                 });
+
             }else if (newPassword.isEmpty()){
                 Toast.makeText(this, R.string.parola_e_goala, Toast.LENGTH_LONG).show();
             }else{
@@ -60,6 +65,4 @@ public class ChangePasswordActivity extends BaseActivity {
     protected int getLayoutId() {
         return R.layout.activity_change_password;
     }
-
-
 }

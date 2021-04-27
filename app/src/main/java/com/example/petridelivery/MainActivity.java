@@ -4,40 +4,63 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.petridelivery.abs.BaseActivity;
-import com.example.petridelivery.wrappers.base.abs.ApiException;
-import com.petri.delivery.web.controllers.abs.IAuthController;
+import com.example.petridelivery.wrappers.AuthWrapper;
+import com.example.petridelivery.wrappers.ConfigWrapper;
+import com.example.petridelivery.wrappers.base.OnResponseCallback;
 import com.petri.delivery.web.objects.ContDto;
 import com.petri.delivery.web.objects.EmployeeType;
 
+import java.util.Hashtable;
+
+import javax.inject.Inject;
+
+import retrofit2.Response;
+
 public class MainActivity extends BaseActivity {
 
-    IAuthController auth;
+    @Inject
+    AuthWrapper auth;
+
+    @Inject
+    ConfigWrapper config;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        wc.inject(this);
 
-        auth = wc.getAuthWrapper();
         ContDto cont = app.getCont();
 
         Intent login = new Intent(this, LoginActivity.class);
         if(cont == null){
             startActivity(login);
         }else{
-            runner.executeAsync(() -> {
-                try{
-                    ContDto c = auth.loginWithToken(cont.getAccesToken(), cont.getNumeDeUtilizator());
+            auth.loginWithToken(cont.getAccesToken(), cont.getNumeDeUtilizator()).enqueue(new OnResponseCallback<ContDto>(getApplicationContext()) {
+
+                @Override
+                public void onSuccessful(Response<ContDto> response) {
+                    ContDto c = response.body();
                     app.setCont(c);
 
-                    Intent i = new Intent();
-                    if(c.getTip() == EmployeeType.LIVRARE){
-                        i.setClass(this, LivratorActivity.class);
-                    }else{
-                        i.setClass(this, ManagementActivity.class);
-                    }
-                    runOnUiThread(() -> startActivity(i));
-                }catch (ApiException e){
-                    if(e.getStatus() == 401){
+                    config.getConfig().enqueue(new OnResponseCallback<Hashtable<String, Object>>(getApplicationContext()) {
+                        @Override
+                        public void onSuccessful(Response<Hashtable<String, Object>> response) {
+                            app.setConfiguration(response.body());
+
+                            Intent i = new Intent();
+                            if(c.getTip() == EmployeeType.LIVRARE){
+                                i.setClass(MainActivity.this, LivratorActivity.class);
+                            }else{
+                                i.setClass(MainActivity.this, ManagementActivity.class);
+                            }
+                            runOnUiThread(() -> startActivity(i));
+                        }
+                    });
+                }
+
+                @Override
+                public void onNotSuccesful(Response<ContDto> response) {
+                    if(response.code() == 401){
                         login.putExtra(getResources().getString(R.string.numeDeUtilizatorExtra), cont.getNumeDeUtilizator());
                         runOnUiThread(() -> startActivity(login));
                     }

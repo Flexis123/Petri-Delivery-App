@@ -17,7 +17,6 @@
         <activity android:name=".ManagementActivity" />
         <activity android:name=".ChangePasswordActivity" />
         <activity android:name=".LoginActivity">
-
         </activity>
         <activity android:name=".MainActivity">
             <intent-filter>
